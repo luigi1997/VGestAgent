@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//xis
+
 namespace VGestAgent
 {
     public partial class Form1 : Form
