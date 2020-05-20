@@ -2,19 +2,25 @@
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
+using Dapper;
+using Ionic.Zip;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.IO.Compression;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using VGNetGlobais;
 
 namespace VGestAgent
 {
@@ -58,16 +64,16 @@ namespace VGestAgent
             InitializeComponent();
             if (registryKey.GetValue("VGestAgent") != null)
             {
-                checkBox1.Checked = true;
+                checkBox_start.Checked = true;
             }
             else
             {
-                checkBox1.Checked = false;
+                checkBox_start.Checked = false;
             }
-            textBox1.Text = "d0fadd8d-3b8b-4331-9dac-884953462b41";
-            textBox3.Text = "localhost:44370";
-            textBox5.Text = "admin";
-            textBox6.Text = "admin";
+            textBox_id.Text = "d0fadd8d-3b8b-4331-9dac-884953462b41";
+            textBox_url.Text = "localhost:44370";
+            textBox_username.Text = "admin";
+            textBox_password.Text = "admin";
             notifyIcon1.ContextMenuStrip = new ContextMenuStrip();
             notifyIcon1.ContextMenuStrip.Items.Add("Sair", null, this.Menu_Sair_Click);
 
@@ -88,56 +94,56 @@ namespace VGestAgent
             client = new AmazonS3Client(credentials, config);
         }
 
-        private async void button2_Click(object sender, EventArgs e)
+        private async void button_get_Click(object sender, EventArgs e)
         {
-            button2.Enabled = false;
-            this.button2.BackColor = System.Drawing.Color.DarkGray;
-            textBox4.Text = "";
+            button_get.Enabled = false;
+            this.button_get.BackColor = System.Drawing.Color.DarkGray;
+            textBox_update_text.Text = "";
 
 
-            if (textBox1.Text.Length == 0)
+            if (textBox_id.Text.Length == 0)
             {
-                label4.Visible = true;
+                label_id_obrigatorio.Visible = true;
             }
             else
             {
-                label4.Visible = false;
+                label_id_obrigatorio.Visible = false;
             }
 
-            if (textBox3.Text.Length == 0)
+            if (textBox_url.Text.Length == 0)
             {
-                label5.Visible = true;
+                label_url_obrigatorio.Visible = true;
             }
             else
             {
-                label5.Visible = false;
+                label_url_obrigatorio.Visible = false;
             }
 
-            if (textBox1.Text.Length == 0 || textBox3.Text.Length == 0)
+            if (textBox_id.Text.Length == 0 || textBox_url.Text.Length == 0)
             {
-                button2.Enabled = true;
-                this.button2.BackColor = System.Drawing.Color.Lime;
+                button_get.Enabled = true;
+                this.button_get.BackColor = System.Drawing.Color.Lime;
                 return;
             }
 
             try
             {
                 await getVersoesDoCliente(httpClient);
-                button2.Enabled = true;
-                this.button2.BackColor = System.Drawing.Color.Lime;
+                button_get.Enabled = true;
+                this.button_get.BackColor = System.Drawing.Color.Lime;
             }
             catch (Exception)
             {
                 Console.WriteLine("Erro");
-                button2.Enabled = true;
-                this.button2.BackColor = System.Drawing.Color.Lime;
+                button_get.Enabled = true;
+                this.button_get.BackColor = System.Drawing.Color.Lime;
             }
 
         }
 
         private async Task getCliente(HttpClient httpClient)
         {
-            string url = "https://" + textBox3.Text + "/api/Clientes/GetCliente?id=" + textBox1.Text;
+            string url = "https://" + textBox_url.Text + "/api/Clientes/GetCliente?id=" + textBox_id.Text;
 
             var httpResponse = await httpClient.GetAsync(url);
 
@@ -160,21 +166,21 @@ namespace VGestAgent
                 cliente.Terceiro = objeto.GetValue("terceiro").ToString();
                 cliente.Numero_postos = Int32.Parse(objeto.GetValue("numero_postos").ToString());
 
-                textBox2.ForeColor = System.Drawing.Color.Black;
-                textBox2.Text = cliente.Nome + ", versão atual é " + cliente.Versao_atual;
+                textBox_nome_versao.ForeColor = System.Drawing.Color.Black;
+                textBox_nome_versao.Text = cliente.Nome + ", versão atual é " + cliente.Versao_atual;
                 //textBox4.Text = cliente.ToString();
             }
             else
             {
-                textBox2.ForeColor = System.Drawing.Color.DarkGray;
-                textBox2.Text = "Erro cliente com esse id não existe.";
+                textBox_nome_versao.ForeColor = System.Drawing.Color.DarkGray;
+                textBox_nome_versao.Text = "Erro cliente com esse id não existe.";
             }
         }
 
         private async Task getVersoesDoCliente(HttpClient httpClient)
         {
-            button4.Visible = false;
-            button7.Visible = false;
+            button_forcar_update.Visible = false;
+            button_download.Visible = false;
 
             await getCliente(httpClient);
 
@@ -183,9 +189,9 @@ namespace VGestAgent
                 return;
             }
 
-            textBox4.Text = "";
+            textBox_update_text.Text = "";
 
-            string url = "https://" + textBox3.Text + "/api/VersoesClientes/GetVersaoMaisRecenteDoCliente?id_c=" + textBox1.Text;
+            string url = "https://" + textBox_url.Text + "/api/VersoesClientes/GetVersaoMaisRecenteDoCliente?id_c=" + textBox_id.Text;
 
             var httpResponse = await httpClient.GetAsync(url);
 
@@ -195,11 +201,11 @@ namespace VGestAgent
 
             if (cliente.Versao_atual.Equals(jObject_da_versao_mais_recente.GetValue("id")))
             {
-                textBox4.Text = "Já possui a versão mais recente.";
+                textBox_update_text.Text = "Já possui a versão mais recente.";
                 return;
             }
 
-            url = "https://" + textBox3.Text + "/api/VersoesClientes/GetVersoesDoCliente?id_c=" + textBox1.Text;
+            url = "https://" + textBox_url.Text + "/api/VersoesClientes/GetVersoesDoCliente?id_c=" + textBox_id.Text;
 
             httpResponse = await httpClient.GetAsync(url);
 
@@ -214,24 +220,24 @@ namespace VGestAgent
                 {
                     if (cliente.Versao_atual != jObject_da_versao_mais_recente.GetValue("id").ToString())
                     {
-                        button4.Visible = true;
+                        button_forcar_update.Visible = true;
 
-                        textBox4.Text += "A versão " + jObject_da_versao_mais_recente.GetValue("tag_name");
-                        textBox4.Text += " (" + jObject.GetValue("versao_ID") + ") será atualizada a ";
-                        textBox4.Text += jObject.GetValue("data_distribuicao").ToString().Split(' ')[0] + " às ";
-                        textBox4.Text += jObject.GetValue("data_distribuicao").ToString().Split(' ')[1];
+                        textBox_update_text.Text += "A versão " + jObject_da_versao_mais_recente.GetValue("tag_name");
+                        textBox_update_text.Text += " (" + jObject.GetValue("versao_ID") + ") será atualizada a ";
+                        textBox_update_text.Text += jObject.GetValue("data_distribuicao").ToString().Split(' ')[0] + " às ";
+                        textBox_update_text.Text += jObject.GetValue("data_distribuicao").ToString().Split(' ')[1];
                     }
                     else
                     {
-                        textBox4.Text += "Já possui a versão mais recente " + jObject_da_versao_mais_recente.GetValue("tag_name");
-                        textBox4.Text += " (" + jObject.GetValue("versao_ID") + ").";
+                        textBox_update_text.Text += "Já possui a versão mais recente " + jObject_da_versao_mais_recente.GetValue("tag_name");
+                        textBox_update_text.Text += " (" + jObject.GetValue("versao_ID") + ").";
                     }
-                    button7.Visible = true;
-                    button7.Text = "Fazer Download da Versão " + versao_disponivel;
+                    button_download.Visible = true;
+                    button_download.Text = "Fazer Download da Versão " + versao_disponivel;
                 }
             }
 
-            url = "https://" + textBox3.Text + "/api/Versoes/GetVersao?id=" + cliente.Versao_atual;
+            url = "https://" + textBox_url.Text + "/api/Versoes/GetVersao?id=" + cliente.Versao_atual;
 
             httpResponse = await httpClient.GetAsync(url);
 
@@ -239,55 +245,55 @@ namespace VGestAgent
 
             versao_disponivel = JObject.Parse(jsonString);
 
-            textBox2.Text = cliente.Nome + ", versão atual é " + versao_disponivel.GetValue("tag_name") + " (" + cliente.Versao_atual + ")";
-            button7.Text = "Fazer Download da Versão " + versao_disponivel.GetValue("tag_name");
+            textBox_nome_versao.Text = cliente.Nome + ", versão atual é " + versao_disponivel.GetValue("tag_name") + " (" + cliente.Versao_atual + ")";
+            button_download.Text = "Fazer Download da Versão " + versao_disponivel.GetValue("tag_name");
 
             if (checkObject())
             {
-                button7.Enabled = true;
-                this.button7.BackColor = System.Drawing.Color.Lime;
+                button_download.Enabled = true;
+                this.button_download.BackColor = System.Drawing.Color.Lime;
             }
             else
             {
-                button7.Enabled = false;
-                this.button7.BackColor = System.Drawing.Color.DarkGray;
+                button_download.Enabled = false;
+                this.button_download.BackColor = System.Drawing.Color.DarkGray;
             }
         }
 
         /**
          * Botao Login
          */
-        private void button3_Click(object sender, EventArgs e)
+        private void button_login_Click(object sender, EventArgs e)
         {
-            if (textBox5.Text == "" || textBox6.Text == "")
+            if (textBox_username.Text == "" || textBox_password.Text == "")
             {
-                label8.Text = "Username e password são campos obrigatórios.";
-                label8.Visible = true;
+                label_incorretos.Text = "Username e password são campos obrigatórios.";
+                label_incorretos.Visible = true;
                 return;
             }
 
-            if (textBox5.Text == "admin" && textBox6.Text == "admin")
+            if (textBox_username.Text == "admin" && textBox_password.Text == "admin")
             {
-                label8.Visible = false;
-                panel2.Visible = false;
-                panel1.Visible = true;
+                label_incorretos.Visible = false;
+                panel_login.Visible = false;
+                panel_main.Visible = true;
             }
             else
             {
-                label8.Text = "Username e password incorretos.";
-                label8.Visible = true;
+                label_incorretos.Text = "Username e password incorretos.";
+                label_incorretos.Visible = true;
             }
         }
 
         /**
          * Botao Forçar Update
          */
-        private async void button4_Click(object sender, EventArgs e)
+        private async void button_forcar_update_Click(object sender, EventArgs e)
         {
             Cliente cliente_atualizado = (Cliente)cliente.Clone();
             cliente_atualizado.Versao_atual = jObject_da_versao_mais_recente.GetValue("id").ToString();
 
-            string url = "https://" + textBox3.Text + "/api/Clientes/PutCliente?id=" + cliente.Id + "&hora=";
+            string url = "https://" + textBox_url.Text + "/api/Clientes/PutCliente?id=" + cliente.Id + "&hora=";
 
             await PutCliente<Cliente>(cliente_atualizado, url);
 
@@ -315,12 +321,13 @@ namespace VGestAgent
 
         private void Menu_Sair_Click(object sender, EventArgs e)
         {
+            notifyIcon1.Visible = false;
             Application.Exit();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void checkBox_start_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
+            if (checkBox_start.Checked)
             {
                 registryKey.SetValue("VGestAgent", Application.ExecutablePath);
             }
@@ -333,22 +340,22 @@ namespace VGestAgent
         /**
          * Log Out Button
          */
-        private void button5_ClickAsync(object senderr, EventArgs e)
+        private void button_logout_ClickAsync(object senderr, EventArgs e)
         {
-            label8.Visible = false;
-            panel1.Visible = false;
-            panel2.Visible = true;
+            label_incorretos.Visible = false;
+            panel_main.Visible = false;
+            panel_login.Visible = true;
         }
 
         /**
          * Botao de Download
          */
-        private async void button7_Click(object sender, EventArgs e)
+        private async void button_download_Click(object sender, EventArgs e)
         {
             await DownloadObjectAsync();
         }
 
-        private async void button6_Click(object sender, EventArgs e)
+        private async void button_upload_Click(object sender, EventArgs e)
         {
             await UploadObjectAsync();
         }
@@ -431,7 +438,7 @@ namespace VGestAgent
                 };
 
                 string responseBody = String.Empty;
-                var pathAndFileName = $"C:\\OlifelVersoes\\{keyName}";
+                var pathAndFileName = getPath() + "\\" + versao_disponivel.GetValue("tag_name").ToString() + ".zip";
                 using (var response = await client.GetObjectAsync(request))
                     await response.WriteResponseStreamToFileAsync(pathAndFileName, true, CancellationToken.None);
             }
@@ -454,12 +461,25 @@ namespace VGestAgent
                 {
                     string key = "vgnet-versions/" + filePath.Split('\\')[filePath.Split('\\').Length - 1];
                     var fileTransferUtility = new TransferUtility(client);
-                    await fileTransferUtility.UploadAsync(filePath, "olifel", key);
+
+                    var uploadRequest =
+                        new TransferUtilityUploadRequest
+                        {
+                            BucketName = "olifel",
+                            FilePath = filePath,
+                            Key = key
+                        };
+                    Console.WriteLine("Upload em progresso");
+                    fileTransferUtility.Upload(uploadRequest);
+                    Console.WriteLine("Fim de upload");
+                    MessageBox.Show("Ficheiro carregado com sucesso", "Upload", MessageBoxButtons.OK);
                 }
             }
             catch (Exception)
             {
-                throw;
+                var result = MessageBox.Show("Erro ficheiro não existe", "Upload", MessageBoxButtons.RetryCancel);
+                if (result == DialogResult.Retry)
+                    await UploadObjectAsync();
             }
         }
 
@@ -488,7 +508,7 @@ namespace VGestAgent
             }
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void button_select_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog
             {
@@ -510,28 +530,71 @@ namespace VGestAgent
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 filePath = openFileDialog1.FileName;
-                Console.WriteLine(filePath);
+                label_file_selected.Text = filePath;
             }
             if (filePath.Length > 0)
             {
-                button6.Enabled = true;
-                this.button6.BackColor = System.Drawing.Color.Lime;
+                button_upload.Enabled = true;
+                this.button_upload.BackColor = System.Drawing.Color.Lime;
             }
             else
             {
-                button6.Enabled = false;
-                this.button6.BackColor = System.Drawing.Color.DarkGray;
+                button_upload.Enabled = false;
+                this.button_upload.BackColor = System.Drawing.Color.DarkGray;
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button_unzip_Click(object sender, EventArgs e)
         {
-            unzip("C:\\OlifelVersoes\\vgnet-versions\\V2020.05.06.zip", "C:\\OlifelVersoes\\vgnet-versions");
+            string path = getPath();
+            unzip(path + "\\V2020.05.06.zip", path);
         }
 
+        private void button_mail_Click(object sender, EventArgs e)
+        {
+            sendEmail();
+        }
         private void unzip(string zipFilePath, string folderPath)
         {
-            ZipFile.ExtractToDirectory(zipFilePath, folderPath);
+            using (ZipFile zip = ZipFile.Read(zipFilePath))
+            {
+                foreach (ZipEntry entry in zip)
+                {
+                    entry.Extract(folderPath, ExtractExistingFileAction.OverwriteSilently);
+                }
+            }
         }
+
+        private string getPath()
+        {
+            using (IDbConnection vgtabCnn = new SqlConnection(VGGlobais.VGTabCnnString()))
+            {
+                string path = vgtabCnn.Query<string>("select * from _SrcPath").FirstOrDefault();
+                return path;
+            }
+        }
+
+        private void sendEmail()
+        {
+            NetworkCredential login;
+            SmtpClient client;
+            MailMessage msg;
+
+            login = new NetworkCredential("versionupdateolifel2020", "fkwqfzfzkqcspwkr");
+            client = new SmtpClient("smtp.gmail.com");
+            client.Port = Convert.ToInt32("587");
+            client.EnableSsl = true;
+            client.Credentials = login;
+
+            msg = new MailMessage { From = new MailAddress("versionupdateolifel2020@gmail.com", "Titulo", Encoding.UTF8) };
+            msg.To.Add(new MailAddress("8160182@estg.ipp.pt"));
+            msg.Subject = "Assunto";
+            msg.Body = "Corpo do email";
+            msg.BodyEncoding = Encoding.UTF8;
+            msg.IsBodyHtml = true;
+
+            client.Send(msg);
+        }
+
     }
 }

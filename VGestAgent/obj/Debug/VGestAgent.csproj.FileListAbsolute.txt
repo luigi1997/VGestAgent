@@ -36,3 +36,9 @@ C:\Users\luigi\Desktop\VGestAgent\VGestAgent\obj\Debug\VGestAgent.csproj.CoreCom
 C:\Users\luigi\Desktop\VGestAgent\VGestAgent\obj\Debug\VGestAgent.csproj.CopyComplete
 C:\Users\luigi\Desktop\VGestAgent\VGestAgent\obj\Debug\VGestAgent.exe
 C:\Users\luigi\Desktop\VGestAgent\VGestAgent\obj\Debug\VGestAgent.pdb
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\DotNetZip.dll
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\DotNetZip.pdb
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\DotNetZip.xml
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\Dapper.dll
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\VGNetGlobais.dll
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\Dapper.xml

@@ -38,323 +38,349 @@ namespace VGestAgent
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox_id = new System.Windows.Forms.TextBox();
+            this.label_id = new System.Windows.Forms.Label();
+            this.textBox_nome_versao = new System.Windows.Forms.TextBox();
+            this.label_nome_versao = new System.Windows.Forms.Label();
+            this.textBox_url = new System.Windows.Forms.TextBox();
+            this.label_url = new System.Windows.Forms.Label();
+            this.label_url_obrigatorio = new System.Windows.Forms.Label();
+            this.label_id_obrigatorio = new System.Windows.Forms.Label();
+            this.button_get = new System.Windows.Forms.Button();
+            this.textBox_update_text = new System.Windows.Forms.TextBox();
+            this.panel_main = new System.Windows.Forms.Panel();
+            this.button_mail = new System.Windows.Forms.Button();
+            this.button_unzip = new System.Windows.Forms.Button();
+            this.button_select = new System.Windows.Forms.Button();
+            this.button_upload = new System.Windows.Forms.Button();
+            this.button_download = new System.Windows.Forms.Button();
+            this.checkBox_start = new System.Windows.Forms.CheckBox();
+            this.button_logout = new System.Windows.Forms.Button();
+            this.button_forcar_update = new System.Windows.Forms.Button();
+            this.panel_login = new System.Windows.Forms.Panel();
+            this.label_incorretos = new System.Windows.Forms.Label();
+            this.button_login = new System.Windows.Forms.Button();
+            this.label_password = new System.Windows.Forms.Label();
+            this.label_username = new System.Windows.Forms.Label();
+            this.textBox_password = new System.Windows.Forms.TextBox();
+            this.textBox_username = new System.Windows.Forms.TextBox();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.label_file_selected = new System.Windows.Forms.Label();
+            this.progress_upload = new System.Windows.Forms.ProgressBar();
+            this.panel_main.SuspendLayout();
+            this.panel_login.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox1
+            // textBox_id
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(12, 49);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(692, 32);
-            this.textBox1.TabIndex = 11;
+            this.textBox_id.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox_id.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_id.Location = new System.Drawing.Point(12, 49);
+            this.textBox_id.Name = "textBox_id";
+            this.textBox_id.Size = new System.Drawing.Size(692, 32);
+            this.textBox_id.TabIndex = 11;
             // 
-            // label1
+            // label_id
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 7.8F);
-            this.label1.Location = new System.Drawing.Point(12, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(89, 19);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "ID do Cliente";
+            this.label_id.AutoSize = true;
+            this.label_id.Font = new System.Drawing.Font("Segoe UI", 7.8F);
+            this.label_id.Location = new System.Drawing.Point(12, 26);
+            this.label_id.Name = "label_id";
+            this.label_id.Size = new System.Drawing.Size(89, 19);
+            this.label_id.TabIndex = 12;
+            this.label_id.Text = "ID do Cliente";
             // 
-            // textBox2
+            // textBox_nome_versao
             // 
-            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.ForeColor = System.Drawing.Color.Black;
-            this.textBox2.Location = new System.Drawing.Point(12, 128);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(776, 32);
-            this.textBox2.TabIndex = 13;
+            this.textBox_nome_versao.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_nome_versao.ForeColor = System.Drawing.Color.Black;
+            this.textBox_nome_versao.Location = new System.Drawing.Point(12, 128);
+            this.textBox_nome_versao.Name = "textBox_nome_versao";
+            this.textBox_nome_versao.ReadOnly = true;
+            this.textBox_nome_versao.Size = new System.Drawing.Size(776, 32);
+            this.textBox_nome_versao.TabIndex = 13;
             // 
-            // label2
+            // label_nome_versao
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 7.8F);
-            this.label2.Location = new System.Drawing.Point(12, 105);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(167, 19);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "Nome e versão do Cliente";
+            this.label_nome_versao.AutoSize = true;
+            this.label_nome_versao.Font = new System.Drawing.Font("Segoe UI", 7.8F);
+            this.label_nome_versao.Location = new System.Drawing.Point(12, 105);
+            this.label_nome_versao.Name = "label_nome_versao";
+            this.label_nome_versao.Size = new System.Drawing.Size(167, 19);
+            this.label_nome_versao.TabIndex = 14;
+            this.label_nome_versao.Text = "Nome e versão do Cliente";
             // 
-            // textBox3
+            // textBox_url
             // 
-            this.textBox3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.ForeColor = System.Drawing.Color.Black;
-            this.textBox3.Location = new System.Drawing.Point(12, 391);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(776, 32);
-            this.textBox3.TabIndex = 16;
+            this.textBox_url.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_url.ForeColor = System.Drawing.Color.Black;
+            this.textBox_url.Location = new System.Drawing.Point(12, 391);
+            this.textBox_url.Name = "textBox_url";
+            this.textBox_url.Size = new System.Drawing.Size(776, 32);
+            this.textBox_url.TabIndex = 16;
             // 
-            // label3
+            // label_url
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 7.8F);
-            this.label3.Location = new System.Drawing.Point(12, 368);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 19);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Url da API";
+            this.label_url.AutoSize = true;
+            this.label_url.Font = new System.Drawing.Font("Segoe UI", 7.8F);
+            this.label_url.Location = new System.Drawing.Point(12, 368);
+            this.label_url.Name = "label_url";
+            this.label_url.Size = new System.Drawing.Size(71, 19);
+            this.label_url.TabIndex = 17;
+            this.label_url.Text = "Url da API";
             // 
-            // label5
+            // label_url_obrigatorio
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 7.8F);
-            this.label5.ForeColor = System.Drawing.Color.Red;
-            this.label5.Location = new System.Drawing.Point(12, 426);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(223, 19);
-            this.label5.TabIndex = 18;
-            this.label5.Text = "Url da API é um campo obrigatório";
-            this.label5.Visible = false;
+            this.label_url_obrigatorio.AutoSize = true;
+            this.label_url_obrigatorio.Font = new System.Drawing.Font("Segoe UI", 7.8F);
+            this.label_url_obrigatorio.ForeColor = System.Drawing.Color.Red;
+            this.label_url_obrigatorio.Location = new System.Drawing.Point(12, 426);
+            this.label_url_obrigatorio.Name = "label_url_obrigatorio";
+            this.label_url_obrigatorio.Size = new System.Drawing.Size(223, 19);
+            this.label_url_obrigatorio.TabIndex = 18;
+            this.label_url_obrigatorio.Text = "Url da API é um campo obrigatório";
+            this.label_url_obrigatorio.Visible = false;
             // 
-            // label4
+            // label_id_obrigatorio
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Segoe UI", 7.8F);
-            this.label4.ForeColor = System.Drawing.Color.Red;
-            this.label4.Location = new System.Drawing.Point(12, 84);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(241, 19);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "ID do Cliente é um campo obrigatório";
-            this.label4.Visible = false;
+            this.label_id_obrigatorio.AutoSize = true;
+            this.label_id_obrigatorio.Font = new System.Drawing.Font("Segoe UI", 7.8F);
+            this.label_id_obrigatorio.ForeColor = System.Drawing.Color.Red;
+            this.label_id_obrigatorio.Location = new System.Drawing.Point(12, 84);
+            this.label_id_obrigatorio.Name = "label_id_obrigatorio";
+            this.label_id_obrigatorio.Size = new System.Drawing.Size(241, 19);
+            this.label_id_obrigatorio.TabIndex = 19;
+            this.label_id_obrigatorio.Text = "ID do Cliente é um campo obrigatório";
+            this.label_id_obrigatorio.Visible = false;
             // 
-            // button2
+            // button_get
             // 
-            this.button2.BackColor = System.Drawing.Color.Lime;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Image = global::VGestAgent.Properties.Resources.Ok_icon__2_;
-            this.button2.Location = new System.Drawing.Point(710, 46);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(78, 38);
-            this.button2.TabIndex = 20;
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button_get.BackColor = System.Drawing.Color.Lime;
+            this.button_get.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_get.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_get.Image = global::VGestAgent.Properties.Resources.Ok_icon__2_;
+            this.button_get.Location = new System.Drawing.Point(710, 46);
+            this.button_get.Name = "button_get";
+            this.button_get.Size = new System.Drawing.Size(78, 38);
+            this.button_get.TabIndex = 20;
+            this.button_get.UseVisualStyleBackColor = false;
+            this.button_get.Click += new System.EventHandler(this.button_get_Click);
             // 
-            // textBox4
+            // textBox_update_text
             // 
-            this.textBox4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.ForeColor = System.Drawing.Color.Black;
-            this.textBox4.Location = new System.Drawing.Point(12, 166);
-            this.textBox4.Multiline = true;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(776, 104);
-            this.textBox4.TabIndex = 21;
+            this.textBox_update_text.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_update_text.ForeColor = System.Drawing.Color.Black;
+            this.textBox_update_text.Location = new System.Drawing.Point(12, 166);
+            this.textBox_update_text.Multiline = true;
+            this.textBox_update_text.Name = "textBox_update_text";
+            this.textBox_update_text.ReadOnly = true;
+            this.textBox_update_text.Size = new System.Drawing.Size(776, 104);
+            this.textBox_update_text.TabIndex = 21;
             // 
-            // panel1
+            // panel_main
             // 
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.button8);
-            this.panel1.Controls.Add(this.button6);
-            this.panel1.Controls.Add(this.button7);
-            this.panel1.Controls.Add(this.checkBox1);
-            this.panel1.Controls.Add(this.button5);
-            this.panel1.Controls.Add(this.button4);
-            this.panel1.Controls.Add(this.textBox4);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.textBox3);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.textBox2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 454);
-            this.panel1.TabIndex = 11;
-            this.panel1.Visible = false;
+            this.panel_main.Controls.Add(this.progress_upload);
+            this.panel_main.Controls.Add(this.label_file_selected);
+            this.panel_main.Controls.Add(this.button_mail);
+            this.panel_main.Controls.Add(this.button_unzip);
+            this.panel_main.Controls.Add(this.button_select);
+            this.panel_main.Controls.Add(this.button_upload);
+            this.panel_main.Controls.Add(this.button_download);
+            this.panel_main.Controls.Add(this.checkBox_start);
+            this.panel_main.Controls.Add(this.button_logout);
+            this.panel_main.Controls.Add(this.button_forcar_update);
+            this.panel_main.Controls.Add(this.textBox_update_text);
+            this.panel_main.Controls.Add(this.button_get);
+            this.panel_main.Controls.Add(this.label_url_obrigatorio);
+            this.panel_main.Controls.Add(this.label_id_obrigatorio);
+            this.panel_main.Controls.Add(this.label_url);
+            this.panel_main.Controls.Add(this.textBox_url);
+            this.panel_main.Controls.Add(this.label_nome_versao);
+            this.panel_main.Controls.Add(this.textBox_nome_versao);
+            this.panel_main.Controls.Add(this.label_id);
+            this.panel_main.Controls.Add(this.textBox_id);
+            this.panel_main.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_main.Location = new System.Drawing.Point(0, 0);
+            this.panel_main.Name = "panel_main";
+            this.panel_main.Size = new System.Drawing.Size(800, 454);
+            this.panel_main.TabIndex = 11;
+            this.panel_main.Visible = false;
             // 
-            // button8
+            // button_mail
             // 
-            this.button8.BackColor = System.Drawing.Color.Lime;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button8.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Location = new System.Drawing.Point(559, 280);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(229, 39);
-            this.button8.TabIndex = 27;
-            this.button8.Text = "Selecionar Ficheiro";
-            this.button8.UseVisualStyleBackColor = false;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button_mail.Location = new System.Drawing.Point(713, 333);
+            this.button_mail.Name = "button_mail";
+            this.button_mail.Size = new System.Drawing.Size(75, 27);
+            this.button_mail.TabIndex = 29;
+            this.button_mail.Text = "mail";
+            this.button_mail.UseVisualStyleBackColor = true;
+            this.button_mail.Click += new System.EventHandler(this.button_mail_Click);
             // 
-            // button6
+            // button_unzip
             // 
-            this.button6.BackColor = System.Drawing.Color.DarkGray;
-            this.button6.Enabled = false;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button6.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(559, 325);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(229, 39);
-            this.button6.TabIndex = 26;
-            this.button6.Text = "Upload";
-            this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.button_unzip.Location = new System.Drawing.Point(568, 333);
+            this.button_unzip.Name = "button_unzip";
+            this.button_unzip.Size = new System.Drawing.Size(75, 27);
+            this.button_unzip.TabIndex = 28;
+            this.button_unzip.Text = "unzip";
+            this.button_unzip.UseVisualStyleBackColor = true;
+            this.button_unzip.Click += new System.EventHandler(this.button_unzip_Click);
             // 
-            // button7
+            // button_select
             // 
-            this.button7.BackColor = System.Drawing.Color.DarkGray;
-            this.button7.Enabled = false;
-            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button7.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Location = new System.Drawing.Point(298, 280);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(197, 84);
-            this.button7.TabIndex = 25;
-            this.button7.Text = "Fazer Download da Versão";
-            this.button7.UseVisualStyleBackColor = false;
-            this.button7.Visible = false;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button_select.BackColor = System.Drawing.Color.Lime;
+            this.button_select.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_select.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_select.Location = new System.Drawing.Point(362, 276);
+            this.button_select.Name = "button_select";
+            this.button_select.Size = new System.Drawing.Size(200, 39);
+            this.button_select.TabIndex = 27;
+            this.button_select.Text = "Selecionar Ficheiro";
+            this.button_select.UseVisualStyleBackColor = false;
+            this.button_select.Click += new System.EventHandler(this.button_select_Click);
             // 
-            // checkBox1
+            // button_upload
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(362, 7);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(322, 21);
-            this.checkBox1.TabIndex = 24;
-            this.checkBox1.Text = "Iniciar a aplicação quando inicia o computador";
-            this.checkBox1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.button_upload.BackColor = System.Drawing.Color.DarkGray;
+            this.button_upload.Enabled = false;
+            this.button_upload.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_upload.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_upload.Location = new System.Drawing.Point(362, 321);
+            this.button_upload.Name = "button_upload";
+            this.button_upload.Size = new System.Drawing.Size(200, 39);
+            this.button_upload.TabIndex = 26;
+            this.button_upload.Text = "Upload";
+            this.button_upload.UseVisualStyleBackColor = false;
+            this.button_upload.Click += new System.EventHandler(this.button_upload_Click);
             // 
-            // button5
+            // button_download
             // 
-            this.button5.Font = new System.Drawing.Font("Segoe UI", 11F);
-            this.button5.Location = new System.Drawing.Point(689, 0);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(110, 33);
-            this.button5.TabIndex = 23;
-            this.button5.Text = "Log Out";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_ClickAsync);
+            this.button_download.BackColor = System.Drawing.Color.DarkGray;
+            this.button_download.Enabled = false;
+            this.button_download.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_download.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_download.Location = new System.Drawing.Point(185, 276);
+            this.button_download.Name = "button_download";
+            this.button_download.Size = new System.Drawing.Size(171, 84);
+            this.button_download.TabIndex = 25;
+            this.button_download.Text = "Fazer Download da Versão";
+            this.button_download.UseVisualStyleBackColor = false;
+            this.button_download.Visible = false;
+            this.button_download.Click += new System.EventHandler(this.button_download_Click);
             // 
-            // button4
+            // checkBox_start
             // 
-            this.button4.BackColor = System.Drawing.Color.Lime;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button4.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(38, 280);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(161, 84);
-            this.button4.TabIndex = 22;
-            this.button4.Text = "Forçar Update Agora";
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Visible = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.checkBox_start.AutoSize = true;
+            this.checkBox_start.Location = new System.Drawing.Point(362, 7);
+            this.checkBox_start.Name = "checkBox_start";
+            this.checkBox_start.Size = new System.Drawing.Size(322, 21);
+            this.checkBox_start.TabIndex = 24;
+            this.checkBox_start.Text = "Iniciar a aplicação quando inicia o computador";
+            this.checkBox_start.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBox_start.UseVisualStyleBackColor = true;
+            this.checkBox_start.CheckedChanged += new System.EventHandler(this.checkBox_start_CheckedChanged);
             // 
-            // panel2
+            // button_logout
             // 
-            this.panel2.BackColor = System.Drawing.SystemColors.Control;
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.button3);
-            this.panel2.Controls.Add(this.label7);
-            this.panel2.Controls.Add(this.label6);
-            this.panel2.Controls.Add(this.textBox6);
-            this.panel2.Controls.Add(this.textBox5);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(800, 454);
-            this.panel2.TabIndex = 22;
+            this.button_logout.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.button_logout.Location = new System.Drawing.Point(689, 0);
+            this.button_logout.Name = "button_logout";
+            this.button_logout.Size = new System.Drawing.Size(110, 33);
+            this.button_logout.TabIndex = 23;
+            this.button_logout.Text = "Log Out";
+            this.button_logout.UseVisualStyleBackColor = true;
+            this.button_logout.Click += new System.EventHandler(this.button_logout_ClickAsync);
             // 
-            // label8
+            // button_forcar_update
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Segoe UI", 7.8F);
-            this.label8.ForeColor = System.Drawing.Color.Red;
-            this.label8.Location = new System.Drawing.Point(264, 242);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(218, 19);
-            this.label8.TabIndex = 5;
-            this.label8.Text = "Username ou password incorretos";
-            this.label8.Visible = false;
+            this.button_forcar_update.BackColor = System.Drawing.Color.Lime;
+            this.button_forcar_update.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_forcar_update.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_forcar_update.Location = new System.Drawing.Point(18, 276);
+            this.button_forcar_update.Name = "button_forcar_update";
+            this.button_forcar_update.Size = new System.Drawing.Size(161, 84);
+            this.button_forcar_update.TabIndex = 22;
+            this.button_forcar_update.Text = "Forçar Update Agora";
+            this.button_forcar_update.UseVisualStyleBackColor = false;
+            this.button_forcar_update.Visible = false;
+            this.button_forcar_update.Click += new System.EventHandler(this.button_forcar_update_Click);
             // 
-            // button3
+            // panel_login
             // 
-            this.button3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(348, 276);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(88, 38);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Login";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.panel_login.BackColor = System.Drawing.SystemColors.Control;
+            this.panel_login.Controls.Add(this.label_incorretos);
+            this.panel_login.Controls.Add(this.button_login);
+            this.panel_login.Controls.Add(this.label_password);
+            this.panel_login.Controls.Add(this.label_username);
+            this.panel_login.Controls.Add(this.textBox_password);
+            this.panel_login.Controls.Add(this.textBox_username);
+            this.panel_login.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel_login.Location = new System.Drawing.Point(0, 0);
+            this.panel_login.Name = "panel_login";
+            this.panel_login.Size = new System.Drawing.Size(800, 454);
+            this.panel_login.TabIndex = 22;
             // 
-            // label7
+            // label_incorretos
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 7.8F);
-            this.label7.Location = new System.Drawing.Point(263, 185);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(67, 19);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "Password";
+            this.label_incorretos.AutoSize = true;
+            this.label_incorretos.Font = new System.Drawing.Font("Segoe UI", 7.8F);
+            this.label_incorretos.ForeColor = System.Drawing.Color.Red;
+            this.label_incorretos.Location = new System.Drawing.Point(264, 242);
+            this.label_incorretos.Name = "label_incorretos";
+            this.label_incorretos.Size = new System.Drawing.Size(218, 19);
+            this.label_incorretos.TabIndex = 5;
+            this.label_incorretos.Text = "Username ou password incorretos";
+            this.label_incorretos.Visible = false;
             // 
-            // label6
+            // button_login
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 7.8F);
-            this.label6.Location = new System.Drawing.Point(263, 122);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(71, 19);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "Username";
+            this.button_login.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_login.Location = new System.Drawing.Point(348, 276);
+            this.button_login.Name = "button_login";
+            this.button_login.Size = new System.Drawing.Size(88, 38);
+            this.button_login.TabIndex = 4;
+            this.button_login.Text = "Login";
+            this.button_login.UseVisualStyleBackColor = true;
+            this.button_login.Click += new System.EventHandler(this.button_login_Click);
             // 
-            // textBox6
+            // label_password
             // 
-            this.textBox6.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox6.Location = new System.Drawing.Point(266, 206);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.PasswordChar = '*';
-            this.textBox6.Size = new System.Drawing.Size(267, 31);
-            this.textBox6.TabIndex = 1;
-            this.textBox6.Text = "admin";
+            this.label_password.AutoSize = true;
+            this.label_password.Font = new System.Drawing.Font("Segoe UI", 7.8F);
+            this.label_password.Location = new System.Drawing.Point(263, 185);
+            this.label_password.Name = "label_password";
+            this.label_password.Size = new System.Drawing.Size(67, 19);
+            this.label_password.TabIndex = 3;
+            this.label_password.Text = "Password";
             // 
-            // textBox5
+            // label_username
             // 
-            this.textBox5.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox5.Location = new System.Drawing.Point(266, 142);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(267, 31);
-            this.textBox5.TabIndex = 0;
+            this.label_username.AutoSize = true;
+            this.label_username.Font = new System.Drawing.Font("Segoe UI", 7.8F);
+            this.label_username.Location = new System.Drawing.Point(263, 122);
+            this.label_username.Name = "label_username";
+            this.label_username.Size = new System.Drawing.Size(71, 19);
+            this.label_username.TabIndex = 2;
+            this.label_username.Text = "Username";
+            // 
+            // textBox_password
+            // 
+            this.textBox_password.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_password.Location = new System.Drawing.Point(266, 206);
+            this.textBox_password.Name = "textBox_password";
+            this.textBox_password.PasswordChar = '*';
+            this.textBox_password.Size = new System.Drawing.Size(267, 31);
+            this.textBox_password.TabIndex = 1;
+            this.textBox_password.Text = "admin";
+            // 
+            // textBox_username
+            // 
+            this.textBox_username.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_username.Location = new System.Drawing.Point(266, 142);
+            this.textBox_username.Name = "textBox_username";
+            this.textBox_username.Size = new System.Drawing.Size(267, 31);
+            this.textBox_username.TabIndex = 0;
             // 
             // notifyIcon1
             // 
@@ -368,33 +394,42 @@ namespace VGestAgent
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // button1
+            // label_file_selected
             // 
-            this.button1.Location = new System.Drawing.Point(489, 366);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 28;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.label_file_selected.Font = new System.Drawing.Font("Segoe UI", 7.8F);
+            this.label_file_selected.Location = new System.Drawing.Point(568, 276);
+            this.label_file_selected.Name = "label_file_selected";
+            this.label_file_selected.Size = new System.Drawing.Size(220, 52);
+            this.label_file_selected.TabIndex = 30;
+            this.label_file_selected.Text = "Nenhum Ficheiro Selecionado";
+            // 
+            // progress_upload
+            // 
+            this.progress_upload.Location = new System.Drawing.Point(568, 361);
+            this.progress_upload.Name = "progress_upload";
+            this.progress_upload.Size = new System.Drawing.Size(220, 26);
+            this.progress_upload.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progress_upload.TabIndex = 31;
+            this.progress_upload.UseWaitCursor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(800, 454);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel_main);
+            this.Controls.Add(this.panel_login);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "VGestAgent";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.panel_main.ResumeLayout(false);
+            this.panel_main.PerformLayout();
+            this.panel_login.ResumeLayout(false);
+            this.panel_login.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -406,33 +441,36 @@ namespace VGestAgent
         private JObject jObject_da_versao_mais_recente;
         private AmazonS3Client client;
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox textBox_id;
+        private System.Windows.Forms.Label label_id;
+        private System.Windows.Forms.TextBox textBox_nome_versao;
+        private System.Windows.Forms.Label label_nome_versao;
+        private System.Windows.Forms.TextBox textBox_url;
+        private System.Windows.Forms.Label label_url;
+        private System.Windows.Forms.Label label_id_obrigatorio;
+        private System.Windows.Forms.Label label_url_obrigatorio;
+        private System.Windows.Forms.Button button_get;
+        private System.Windows.Forms.TextBox textBox_update_text;
+        private System.Windows.Forms.Panel panel_main;
+        private System.Windows.Forms.Panel panel_login;
+        private System.Windows.Forms.Label label_password;
+        private System.Windows.Forms.Label label_username;
+        private System.Windows.Forms.TextBox textBox_password;
+        private System.Windows.Forms.TextBox textBox_username;
+        private System.Windows.Forms.Button button_login;
+        private System.Windows.Forms.Label label_incorretos;
+        private System.Windows.Forms.Button button_forcar_update;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button_logout;
+        private System.Windows.Forms.CheckBox checkBox_start;
+        private System.Windows.Forms.Button button_download;
+        private System.Windows.Forms.Button button_upload;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_select;
+        private System.Windows.Forms.Button button_unzip;
+        private System.Windows.Forms.Button button_mail;
+        private System.Windows.Forms.Label label_file_selected;
+        private System.Windows.Forms.ProgressBar progress_upload;
     }
 }
 
