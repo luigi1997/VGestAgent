@@ -41,4 +41,13 @@ C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\DotNetZip.xml
 C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\Dapper.dll
 C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\VGNetGlobais.dll
 C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\Dapper.xml
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\Microsoft.Win32.TaskScheduler.dll
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\Microsoft.Win32.TaskScheduler.xml
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\de\Microsoft.Win32.TaskScheduler.resources.dll
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\es\Microsoft.Win32.TaskScheduler.resources.dll
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\fr\Microsoft.Win32.TaskScheduler.resources.dll
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\it\Microsoft.Win32.TaskScheduler.resources.dll
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\pl\Microsoft.Win32.TaskScheduler.resources.dll
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\ru\Microsoft.Win32.TaskScheduler.resources.dll
+C:\Users\luigi\Desktop\VGestAgent\VGestAgent\bin\Debug\zh-CN\Microsoft.Win32.TaskScheduler.resources.dll
 C:\Users\luigi\Desktop\VGestAgent\VGestAgent\obj\Debug\VGestAgent.csprojAssemblyReference.cache

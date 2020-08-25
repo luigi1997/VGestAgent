@@ -4,13 +4,13 @@ using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Dapper;
 using Ionic.Zip;
-using Microsoft.Win32;
+using Microsoft.Win32.TaskScheduler;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -21,15 +21,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using VGNetGlobais;
+using Task = System.Threading.Tasks.Task;
 
 namespace VGestAgent
 {
     public partial class Form1 : Form
     {
-        private RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-
         private HttpClient httpClient = new HttpClient();
-        private AmazonS3Client client;
+        private AmazonS3Client clientAmazon;
 
         private JObject cliente, versao_mais_recente, versao_disponivel;
         private string filePath, localhost, cliente_id, data_atualizacao;
@@ -38,10 +37,33 @@ namespace VGestAgent
         {
             InitializeComponent();
 
-            if (registryKey.GetValue("VGestAgent") != null)
-                checkBox_start.Checked = true;
-            else
-                checkBox_start.Checked = false;
+            try
+            {
+                bool tarefaExiste = false;
+
+                foreach (var item in TaskService.Instance.RootFolder.AllTasks)
+                {
+                    if (item.ToString().Equals("VGestAgentTask"))
+                    {
+                        tarefaExiste = true;
+                        break;
+                    }
+                }
+                if (!tarefaExiste)
+                {
+                    using (TaskService ts = new TaskService())
+                    {
+                        TaskDefinition td = ts.NewTaskFromFile("VGestAgentTask.xml");
+                        ts.RootFolder.RegisterTaskDefinition("", td);
+                        Application.Exit();
+                        Environment.Exit(1);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Erro na criacao da tarefa.");
+            }
 
             if (Properties.Settings.Default.update)
                 checkBox_updates.Checked = true;
@@ -61,7 +83,7 @@ namespace VGestAgent
 
             BasicAWSCredentials credentials = new BasicAWSCredentials("YJ4M7GEE6N2BNPAXCTOR", "HSBr4I2eNWe4dGwRqgo+u+5wB84m7nSAK6ppO4mZ+5c");
 
-            client = new AmazonS3Client(credentials, config);
+            clientAmazon = new AmazonS3Client(credentials, config);
 
             button_get_Click(null, null);
 
@@ -99,11 +121,13 @@ namespace VGestAgent
                 {
                     cliente_id = textBox_id.Text;
                     localhost = textBox_url.Text;
-                    await getVersoesDoCliente();
+                    if (sender != null)
+                        await getVersoesDoCliente();
                 }
                 catch (Exception)
                 {
                     textBox_nome_versao.Text = "Erro - Pedido não foi concluido com sucesso";
+                    Console.WriteLine("Erro");
                 }
             }
 
@@ -117,85 +141,153 @@ namespace VGestAgent
         private async Task<bool> getClienteAsync()
         {
             string url = "https://" + localhost + "/api/Clientes/GetCliente?id=" + cliente_id;
-
-            var httpResponse = await httpClient.GetAsync(url);
-
-            if (httpResponse.IsSuccessStatusCode)
+            try
             {
-                String jsonString = await httpResponse.Content.ReadAsStringAsync();
-                cliente = JObject.Parse(jsonString);
-                textBox_nome_versao.ForeColor = System.Drawing.Color.Black;
-                return true;
+                var httpResponse = await httpClient.GetAsync(url);
+
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    string jsonString = await httpResponse.Content.ReadAsStringAsync();
+                    cliente = JObject.Parse(jsonString);
+                    return true;
+                }
+                else
+                {
+                    textBox_nome_versao.Text = "Erro cliente com esse id não existe.";
+                }
             }
-            else
+            catch (Exception)
             {
-                textBox_nome_versao.ForeColor = System.Drawing.Color.DarkGray;
-                textBox_nome_versao.Text = "Erro cliente com esse id não existe.";
-                return false;
+                textBox_update_text.Text = "Erro na ligação à API.";
+                Console.WriteLine("Erro na ligacao a API.");
             }
+            return false;
         }
 
         private async Task getVersoesDoCliente()
         {
             button_forcar_update.Visible = false;
 
-            if (!await getClienteAsync())
-                return;
+            if (cliente == null || cliente.Property("id").Value.ToString() != cliente_id)
+                if (!await getClienteAsync())
+                {
+                    Console.WriteLine("Erro - Nao foi possivel obter as informaçoes do cliente.");
+                    return;
+                }
 
             textBox_update_text.Text = "";
 
-            string url = "https://" + localhost + "/api/VersoesClientes/GetVersaoMaisRecenteDoCliente?id_c=" + cliente_id;
-
-            var httpResponse = await httpClient.GetAsync(url);
-
-            if (httpResponse.IsSuccessStatusCode)
-                versao_mais_recente = JObject.Parse(await httpResponse.Content.ReadAsStringAsync());
-
-            url = "https://" + localhost + "/api/Versoes/GetVersao?id=" + cliente.Property("versao_atual").Value.ToString();
-
-            httpResponse = await httpClient.GetAsync(url);
-
-            if (httpResponse.IsSuccessStatusCode)
-                versao_disponivel = JObject.Parse(await httpResponse.Content.ReadAsStringAsync());
-
-            if (versao_disponivel == null || versao_mais_recente == null)
+            try
             {
-                textBox_nome_versao.Text = "Informacao da versao, nao esta disponivel.";
+                string url = "https://" + localhost + "/api/VersoesClientes/GetVersaoMaisRecenteDoCliente?id_c=" + cliente_id;
+                var httpResponse = await httpClient.GetAsync(url);
+
+                if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
+                    versao_mais_recente = JObject.Parse(await httpResponse.Content.ReadAsStringAsync());
+                else
+                {
+                    versao_mais_recente = null;
+                    Console.WriteLine("Erro - Nao conseguiu obter a versao mais recente.");
+                }
+            }
+            catch (Exception)
+            {
+                textBox_update_text.Text = "Erro na ligação à API.";
+                Console.WriteLine("Erro na ligacao a API.");
                 return;
             }
 
-            if (versao_mais_recente.Property("id").Value.ToString() == versao_disponivel.Property("id").Value.ToString())
-                textBox_update_text.Text = "Já possui a versao mais recente.";
-            else
+            try
             {
-                url = "https://" + localhost + "/api/VersoesClientes/GetVersaoCliente?id_v=" + versao_mais_recente.Property("id").Value.ToString() + "&id_c=" + cliente.Property("id").Value.ToString();
+                var url = "https://" + localhost + "/api/Versoes/GetVersao?id=" + cliente.Property("versao_atual").Value.ToString();
 
-                httpResponse = await httpClient.GetAsync(url);
+                var httpResponse = await httpClient.GetAsync(url);
 
                 if (httpResponse.IsSuccessStatusCode)
+                    versao_disponivel = JObject.Parse(await httpResponse.Content.ReadAsStringAsync());
+                else
                 {
-                    data_atualizacao = JObject.Parse(await httpResponse.Content.ReadAsStringAsync()).Property("data_distribuicao").Value.ToString();
-
-                    if (checkObject(versao_mais_recente.Property("tag_name").Value.ToString()))
-                    {
-                        button_forcar_update.Enabled = true;
-                        button_forcar_update.Visible = true;
-                        button_forcar_update.BackColor = System.Drawing.Color.Lime;
-                    }
-
-                    verificaSeJaEHoraDeAtualizar();
+                    versao_disponivel = null;
+                    Console.WriteLine("Erro - Nao conseguiu obter a versao disponivel.");
                 }
             }
-
-            mostrarInformacao();
-
-            button_download.Text = "Fazer Download da Versão " + versao_disponivel.Property("tag_name").Value.ToString();
-
-            if (checkObject(versao_disponivel.Property("tag_name").Value.ToString()))
+            catch (Exception)
             {
-                button_download.Enabled = true;
-                button_download.Visible = true;
-                button_download.BackColor = System.Drawing.Color.Lime;
+                textBox_update_text.Text = "Erro na ligação à API.";
+                Console.WriteLine("Erro na ligacao a API.");
+                return;
+            }
+
+            if (versao_disponivel != null)
+            {
+                textBox_nome_versao.Text = cliente.Property("nome").Value.ToString() + " tem a versão " + versao_disponivel.Property("tag_name").Value.ToString() + " (" + cliente.Property("versao_atual").Value.ToString() + ")";
+
+                if (checkObject(versao_disponivel.Property("tag_name").Value.ToString()))
+                {
+                    button_download.Text = "Fazer Download da Versão " + versao_disponivel.Property("tag_name").Value.ToString();
+                    button_download.Enabled = true;
+                    button_download.Visible = true;
+                    button_download.BackColor = System.Drawing.Color.Lime;
+                }
+            }
+            else
+            {
+                textBox_nome_versao.Text = cliente.Property("nome").Value.ToString() + " (Não possui uma versão do software)";
+                Console.WriteLine("Erro - Nao conseguiu obter informacao da versao.");
+            }
+
+            if (versao_mais_recente == null)
+            {
+                textBox_update_text.Text = "Cliente não tem novas versões disponiveis.";
+                Console.WriteLine("Erro - Nao conseguiu obter informacao da versao.");
+            }
+            else
+            {
+                if (versao_disponivel != null)
+                {
+                    if (versao_mais_recente.Property("id").Value.ToString() == versao_disponivel.Property("id").Value.ToString())
+                    {
+                        textBox_update_text.Text = "Já possui a versao mais recente.";
+                        return;
+                    }
+                }
+                /*
+                 * Caso nao tenha a versao mais recente, vai buscar a data e hora de distribuicao da versao
+                 */
+                try
+                {
+                    var url = "https://" + localhost + "/api/VersoesClientes/GetVersaoCliente?id_v=" + versao_mais_recente.Property("id").Value.ToString() + "&id_c=" + cliente.Property("id").Value.ToString();
+
+                    var httpResponse = await httpClient.GetAsync(url);
+
+                    if (httpResponse.IsSuccessStatusCode)
+                    {
+                        data_atualizacao = JObject.Parse(await httpResponse.Content.ReadAsStringAsync()).Property("data_distribuicao").Value.ToString();
+
+                        if (checkObject(versao_mais_recente.Property("tag_name").Value.ToString()))
+                        {
+                            button_forcar_update.Enabled = true;
+                            button_forcar_update.Visible = true;
+                            button_forcar_update.BackColor = System.Drawing.Color.Lime;
+                        }
+
+                        textBox_update_text.Text = "A versão " + versao_mais_recente.Property("tag_name").Value.ToString() + " (" +
+                            versao_mais_recente.Property("id").Value.ToString() + ") vai ser atualizada no dia " + data_atualizacao.Split(' ')[0] + " às " + data_atualizacao.Split(' ')[1];
+
+                        verificaSeJaEHoraDeAtualizar();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Erro - Nao foi possivel obter informação da data de distribuiçao da versao.");
+                    }
+                }
+                catch (Exception)
+                {
+                    textBox_update_text.Text = "Erro na ligação à API.";
+                    Console.WriteLine("Erro na ligacao a API.");
+                    return;
+                }
+
             }
         }
 
@@ -219,20 +311,14 @@ namespace VGestAgent
         private async Task checkVersao()
         {
             getVersoesDoCliente();
-            await Task.Delay(60000); //espera um minuto
+            int segundos = DateTime.Now.Second;
+            //espera um minuto
+            if (segundos >= 0 && segundos < 30)
+                await Task.Delay(60000 - segundos * 1000);
+            else
+                await Task.Delay(60000 + (60000 - segundos * 1000));
             checkVersao();
             return;
-        }
-
-        private void mostrarInformacao()
-        {
-            textBox_nome_versao.Text = cliente.Property("nome").Value.ToString() + " tem a versão " + versao_disponivel.Property("tag_name").Value.ToString() + " (" + cliente.Property("versao_atual").Value.ToString() + ")";
-
-            if (versao_mais_recente.Property("id").Value.ToString() == versao_disponivel.Property("id").Value.ToString())
-                textBox_update_text.Text = "Já possui a versao mais recente.";
-            else
-                textBox_update_text.Text = "A versão " + versao_mais_recente.Property("tag_name").Value.ToString() + " (" +
-                    versao_mais_recente.Property("id").Value.ToString() + ") vai ser atualizada no dia " + data_atualizacao.Split(' ')[0] + " às " + data_atualizacao.Split(' ')[1];
         }
 
         /**
@@ -274,6 +360,9 @@ namespace VGestAgent
 
             await PutCliente(cliente_atualizado, url);
 
+            if (!await getClienteAsync())
+                return;
+
             await getVersoesDoCliente();
 
             if (checkObject(versao_disponivel.Property("tag_name").Value.ToString()))
@@ -310,19 +399,7 @@ namespace VGestAgent
          */
         private void Menu_Sair_Click(object sender, EventArgs e)
         {
-            notifyIcon1.Visible = false;
             Application.Exit();
-        }
-
-        /**
-         * Checkbox para iniciar a aplicação com o windows
-         */
-        private void checkBox_start_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_start.Checked)
-                registryKey.SetValue("VGestAgent", Application.ExecutablePath);
-            else
-                registryKey.DeleteValue("VGestAgent");
         }
 
         /**
@@ -348,7 +425,7 @@ namespace VGestAgent
             {
                 ListObjectsRequest request = new ListObjectsRequest();
                 request.BucketName = "olifel";
-                ListObjectsResponse response = client.ListObjects(request);
+                ListObjectsResponse response = clientAmazon.ListObjects(request);
 
                 foreach (S3Object item in response.S3Objects)
                     if (item.Key.ToString().Contains(versao_tag_name))
@@ -356,6 +433,7 @@ namespace VGestAgent
             }
             catch (Exception)
             {
+                Console.WriteLine("Versao nao existe na base de dados.");
                 throw;
             }
             return false;
@@ -383,7 +461,7 @@ namespace VGestAgent
                 progress_download.Visible = true;
                 button_download.Visible = false;
 
-                using (var response = await client.GetObjectAsync(request))
+                using (var response = await clientAmazon.GetObjectAsync(request))
                     await response.WriteResponseStreamToFileAsync(pathAndFileName, false, CancellationToken.None);
                 unzip(pathAndFileName, getPath());
 
@@ -408,9 +486,53 @@ namespace VGestAgent
             button_download.Visible = true;
         }
 
+        class file : IComparable<file>
+        {
+            public string fileName;
+            public DateTime lastWriteTime;
+
+            public int CompareTo(file file)
+            {
+                if (this.lastWriteTime < file.lastWriteTime)
+                {
+                    return 1;
+                }
+
+                if (this.lastWriteTime > file.lastWriteTime)
+                {
+                    return -1;
+                }
+
+                return 0;
+
+            }
+        }
+
         private void deleteFile(string pathAndFileName)
         {
-            File.Delete(pathAndFileName);
+            string folderPath = getPath();
+            List<file> files = new List<file>();
+
+            string[] fileEntries = Directory.GetFiles(folderPath); //get all files on the save directory
+            foreach (string fileName in fileEntries)
+            {
+                if (fileName.EndsWith(".zip"))
+                {
+                    file file = new file
+                    {
+                        fileName = fileName,
+                        lastWriteTime = File.GetLastWriteTime(fileName)
+                    };
+                    files.Add(file);
+                }
+            }
+
+            files.Sort();
+            while (files.Count > 2)
+            {
+                File.Delete(files.Last().fileName);
+                files.Remove(files.Last());
+            }
         }
 
         /**
@@ -473,7 +595,7 @@ namespace VGestAgent
                     Key = keyName
                 };
 
-                client.DeleteObject(request);
+                clientAmazon.DeleteObject(request);
             }
             catch (AmazonS3Exception e)
             {
@@ -548,7 +670,7 @@ namespace VGestAgent
                 if (filePath.Length > 0)
                 {
                     string key = "vgnet-versions/" + filePath.Split('\\')[filePath.Split('\\').Length - 1];
-                    var fileTransferUtility = new TransferUtility(client);
+                    var fileTransferUtility = new TransferUtility(clientAmazon);
 
                     var uploadRequest =
                         new TransferUtilityUploadRequest
@@ -584,12 +706,6 @@ namespace VGestAgent
 
         private void sendEmail(string nomeCliente, string versao)
         {
-            NetworkCredential login = new NetworkCredential("versionupdateolifel2020", "fkwqfzfzkqcspwkr");
-            SmtpClient client = new SmtpClient("smtp.gmail.com");
-            client.Port = Convert.ToInt32("587");
-            client.EnableSsl = true;
-            client.Credentials = login;
-
             /*
             msg = new MailMessage { From = new MailAddress("versionupdateolifel2020@gmail.com", "Titulo", Encoding.UTF8) };
             msg.To.Add(new MailAddress("versionupdateolifel2020@gmail.com"));
@@ -598,22 +714,27 @@ namespace VGestAgent
             msg.BodyEncoding = Encoding.UTF8;
             msg.IsBodyHtml = true;
             */
+            //VGGlobais.SendEmail("Assunto", "versionupdateolifel2020@gmail.com", "", "", "Corpo", "Assinatura", null, null, null);
+            
+            NetworkCredential login = new NetworkCredential("versionupdateolifel2020", "xakleyhirwabydsl");
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                EnableSsl = true,
+                Credentials = login
+            };
 
-            MailMessage msg = new MailMessage { From = new MailAddress("versionupdateolifel2020@gmail.com", "Atualização " + nomeCliente, Encoding.UTF8) };
+            MailMessage msg = new MailMessage
+            {
+                From = new MailAddress("versionupdateolifel2020@gmail.com", "Atualização " + nomeCliente, Encoding.UTF8),
+                Subject = "Update de Versao",
+                Body = nomeCliente + " atualizou para a versão: " + versao,
+                BodyEncoding = Encoding.UTF8,
+                IsBodyHtml = true
+            };
             msg.To.Add(new MailAddress("versionupdateolifel2020@gmail.com"));
-            msg.Subject = "Update de Versao";
-            msg.Body = nomeCliente + " atualizou para a versão: " + versao;
-            msg.BodyEncoding = Encoding.UTF8;
-            msg.IsBodyHtml = true;
 
-            client.Send(msg);
-        }
-
-        private void sendEmail_2(string nomeCliente, string versao)
-        {
-            Console.WriteLine(nomeCliente);
-            Console.WriteLine(versao);
-            //VGGlobais.SendEmail("Assunto", "8160182@estg.ipp.pt", "", "", "Corpo", "Assinatura", null, null, null);
+            smtpClient.Send(msg);
         }
         #endregion
     }

@@ -61,7 +61,6 @@ namespace VGestAgent
             this.label_file_selected = new System.Windows.Forms.Label();
             this.button_select = new System.Windows.Forms.Button();
             this.button_download = new System.Windows.Forms.Button();
-            this.checkBox_start = new System.Windows.Forms.CheckBox();
             this.button_logout = new System.Windows.Forms.Button();
             this.button_forcar_update = new System.Windows.Forms.Button();
             this.panel_login = new System.Windows.Forms.Panel();
@@ -203,7 +202,6 @@ namespace VGestAgent
             this.panel_main.Controls.Add(this.label_file_selected);
             this.panel_main.Controls.Add(this.button_select);
             this.panel_main.Controls.Add(this.button_download);
-            this.panel_main.Controls.Add(this.checkBox_start);
             this.panel_main.Controls.Add(this.button_logout);
             this.panel_main.Controls.Add(this.button_forcar_update);
             this.panel_main.Controls.Add(this.textBox_update_text);
@@ -227,7 +225,7 @@ namespace VGestAgent
             // checkBox_updates
             // 
             this.checkBox_updates.AutoSize = true;
-            this.checkBox_updates.Location = new System.Drawing.Point(126, 6);
+            this.checkBox_updates.Location = new System.Drawing.Point(386, 7);
             this.checkBox_updates.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_updates.Name = "checkBox_updates";
             this.checkBox_updates.Size = new System.Drawing.Size(127, 17);
@@ -331,19 +329,6 @@ namespace VGestAgent
             this.button_download.UseVisualStyleBackColor = false;
             this.button_download.Visible = false;
             this.button_download.Click += new System.EventHandler(this.button_download_Click);
-            // 
-            // checkBox_start
-            // 
-            this.checkBox_start.AutoSize = true;
-            this.checkBox_start.Location = new System.Drawing.Point(272, 6);
-            this.checkBox_start.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_start.Name = "checkBox_start";
-            this.checkBox_start.Size = new System.Drawing.Size(246, 17);
-            this.checkBox_start.TabIndex = 24;
-            this.checkBox_start.Text = "Iniciar a aplicação quando inicia o computador";
-            this.checkBox_start.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox_start.UseVisualStyleBackColor = true;
-            this.checkBox_start.CheckedChanged += new System.EventHandler(this.checkBox_start_CheckedChanged);
             // 
             // button_logout
             // 
@@ -474,8 +459,8 @@ namespace VGestAgent
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(600, 369);
-            this.Controls.Add(this.panel_login);
             this.Controls.Add(this.panel_main);
+            this.Controls.Add(this.panel_login);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -514,7 +499,6 @@ namespace VGestAgent
         private System.Windows.Forms.Button button_forcar_update;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.Button button_logout;
-        private System.Windows.Forms.CheckBox checkBox_start;
         private System.Windows.Forms.Button button_download;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ProgressBar progress_download;
